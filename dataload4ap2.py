@@ -9,22 +9,24 @@ import os
 
 class appendix2:
     def __init__(self):
-        self.r_g = [f"r_g_{i}" for i in range(1, 28)]
-        self.r_w = [f"r_w_{i}" for i in range(1, 28)]
-        self.w_g = [f"w_g_{i}" for i in range(1, 29)]
-        self.w_w = [f"w_w_{i}" for i in range(1, 29)]
-        self.pathr = "datas/ap2_rg.csv"
-        self.pathw = "datas/ap2_wg.csv"
+        self.pathr = "datas/ap2_r_all.csv"
+        self.pathw = "datas/ap2_w_all.csv"
         self.ap1 = appendix1()
 
 
 class grapes(appendix2):
     def __init__(self):
         super().__init__()
-        self.appearence = ["gsm", "bl", "gpm", "gp_l", "gp_a", "gp_b", "hs", "name"]
-        self.flavor = ["gs", "zf", "dn", "fx", "hs", "name"]
-        self.process = ["zt", "hyt", "zs", "ph", "dn", "hb", "name"]
-        self.health = ["pt", "bl", "ht", "aj", "db", "vc", "name"]
+        self.appearence = [
+            f"g_{col}" for col in ["gsm", "bl", "gpm", "gp_l", "gp_a", "gp_b", "hs"]
+        ] + ["name"]
+        self.flavor = [f"g_{col}" for col in ["gs", "zf", "dn", "fx", "hs"]] + ["name"]
+        self.process = [f"g_{col}" for col in ["zt", "hyt", "zs", "ph", "dn", "hb"]] + [
+            "name"
+        ]
+        self.health = [f"g_{col}" for col in ["pt", "bl", "ht", "aj", "db", "vc"]] + [
+            "name"
+        ]
 
     def average_r(self):
         aver_df, _, _, _ = self.ap1.sum_group()
@@ -142,6 +144,7 @@ class grapes(appendix2):
             df[col] = df[col].map(mapping)
             df["sum"] = df.sum(axis=1)
         metric = (df["sum"].rank(method="first").astype(int) - 1).map(mapping).tolist()
+        df["sum"] = df.iloc[:, :-1].sum(axis=1)
         return df, metric
 
 
@@ -149,3 +152,4 @@ class wine(appendix2):
 
     def __init__(self):
         super().__init__()
+        
