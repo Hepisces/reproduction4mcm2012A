@@ -3,7 +3,6 @@ import numpy as np
 from sklearn.cluster import KMeans
 from data_load4ap1 import appendix1
 from sklearn.preprocessing import StandardScaler
-import os
 from scipy.stats import pearsonr
 import statsmodels.api as sm
 from tqdm import tqdm
