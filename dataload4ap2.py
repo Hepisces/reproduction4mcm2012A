@@ -112,7 +112,7 @@ class grapes(appendix2):
                 elif col == "zs":
                     self.interval_data_standardization(df, col, 8, 12)
                 else:
-                    self.interval_data_standardization(df, col, 25, 1)
+                    self.interval_data_standardization(df, col, 25, 30)
             elif col in median_list:
                 self.median_data_standardization(df, col)
 
