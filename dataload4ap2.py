@@ -6,8 +6,8 @@ from sklearn.preprocessing import StandardScaler
 import os
 from scipy.stats import pearsonr
 import statsmodels.api as sm
-from sklearn.model_selection import train_test_split
 from tqdm import tqdm
+import warnings
 
 class appendix2:
     def __init__(self):
@@ -132,8 +132,7 @@ class grapes(appendix2):
         return df
 
     def kmeans(self, df, k=4):
-        os.environ["OMP_NUM_THREADS"] = "1"
-
+        warnings.filterwarnings("ignore")
         kmeans = KMeans(n_clusters=k, random_state=42)
         kmeans.fit(df.drop("name", axis=1))
         df["cluster"] = kmeans.labels_
@@ -144,6 +143,7 @@ class grapes(appendix2):
                 metrix[f"{col}_center"] = df[f"{col}_center"]
         metrix = metrix.groupby(["cluster"]).mean().reset_index()
         metrix.drop("cluster", axis=1, inplace=True)
+        warnings.filterwarnings("default")
         return df, metrix
 
     def rank(self, df):
